@@ -35,6 +35,9 @@ public class TThreadPoolServerArgument extends TThreadPoolServer.Args {
         protocolFactory(new TCompactProtocol.Factory());
 
         TThreadPoolServerProperties threadPoolProperties = properties.getThreadPool();
+        if (threadPoolProperties == null) {
+            threadPoolProperties = new TThreadPoolServerProperties();
+        }
 
         minWorkerThreads(threadPoolProperties.getMinWorkerThreads());
         maxWorkerThreads(threadPoolProperties.getMaxWorkerThreads());
@@ -57,6 +60,9 @@ public class TThreadPoolServerArgument extends TThreadPoolServer.Args {
 
     private ExecutorService createInvokerPool(ThriftServerProperties properties) {
         TThreadedSelectorServerProperties threadedSelectorProperties = properties.getThreadedSelector();
+        if (threadedSelectorProperties == null) {
+            threadedSelectorProperties = new TThreadedSelectorServerProperties();
+        }
 
         return new ThreadPoolExecutor(
                 threadedSelectorProperties.getMinWorkerThreads(),

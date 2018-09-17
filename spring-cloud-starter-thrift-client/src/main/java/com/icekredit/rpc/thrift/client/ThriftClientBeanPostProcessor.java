@@ -136,11 +136,13 @@ public class ThriftClientBeanPostProcessor implements BeanPostProcessor, Applica
                     throw new ThriftClientInstantiateException("Detected ambiguous beans of {}" + parameterType.getSimpleName());
                 }
 
-                return injectedBeanMap.entrySet().stream()
-                        .findFirst()
-                        .map(Map.Entry::getValue)
-                        .orElseThrow(() -> new ThriftClientInstantiateException(
-                                "Detected non-qualified bean of {}" + parameterType.getSimpleName()));
+                try {
+                    return injectedBeanMap.entrySet().stream()
+                            .findFirst()
+                            .map(Map.Entry::getValue);
+                } catch (ThriftClientInstantiateException e) {
+                    throw e;
+                }
             }).collect(Collectors.toList()).toArray();
 
             ReflectionUtils.makeAccessible(method);

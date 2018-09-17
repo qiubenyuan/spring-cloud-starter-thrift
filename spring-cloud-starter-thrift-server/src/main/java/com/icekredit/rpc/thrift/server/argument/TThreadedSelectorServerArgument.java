@@ -32,6 +32,9 @@ public class TThreadedSelectorServerArgument extends TThreadedSelectorServer.Arg
         protocolFactory(new TCompactProtocol.Factory());
 
         TThreadedSelectorServerProperties threadedSelectorProperties = properties.getThreadedSelector();
+        if (threadedSelectorProperties == null) {
+            threadedSelectorProperties = new TThreadedSelectorServerProperties();
+        }
 
         selectorThreads(threadedSelectorProperties.getSelectorThreads());
         workerThreads(threadedSelectorProperties.getMinWorkerThreads());
@@ -54,6 +57,9 @@ public class TThreadedSelectorServerArgument extends TThreadedSelectorServer.Arg
 
     private ExecutorService createInvokerPool(ThriftServerProperties properties) {
         TThreadedSelectorServerProperties threadedSelectorProperties = properties.getThreadedSelector();
+        if (threadedSelectorProperties == null) {
+            threadedSelectorProperties = new TThreadedSelectorServerProperties();
+        }
 
         return new ThreadPoolExecutor(
                 threadedSelectorProperties.getMinWorkerThreads(),

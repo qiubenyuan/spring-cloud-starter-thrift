@@ -32,6 +32,10 @@ public class THsHaServerArgument extends THsHaServer.Args {
         protocolFactory(new TCompactProtocol.Factory());
 
         THsHaServerProperties hsHaProperties = properties.getHsHa();
+        if(hsHaProperties == null) {
+            hsHaProperties = new THsHaServerProperties();
+        }
+
         minWorkerThreads(hsHaProperties.getMinWorkerThreads());
         maxWorkerThreads(hsHaProperties.getMaxWorkerThreads());
 
@@ -52,6 +56,10 @@ public class THsHaServerArgument extends THsHaServer.Args {
 
     private ExecutorService createInvokerPool(ThriftServerProperties properties) {
         THsHaServerProperties hsHaProperties = properties.getHsHa();
+
+        if(hsHaProperties == null) {
+            hsHaProperties = new THsHaServerProperties();
+        }
 
         return new ThreadPoolExecutor(
                 hsHaProperties.getMinWorkerThreads(),
